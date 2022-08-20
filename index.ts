@@ -1,10 +1,11 @@
 import "./loadEnvironment";
 import connectDB from "./database";
+
 import startServer from "./server/startServer";
 
-const port = +process.env.PORT || 4931;
+let port = +process.env.PORT || 4931;
 
-const mongoURL = process.env.MONGO_URI;
+let mongoURL = process.env.MONGODB_URL;
 
 (async () => {
   try {
