@@ -90,7 +90,7 @@ export const registerUser = async (
     const customError = new CustomError(
       400,
       error.message,
-      "Error creating new user"
+      "Try anther User Name"
     );
     next(customError);
   }
