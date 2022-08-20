@@ -18,7 +18,7 @@ export const generalError = (
   next: NextFunction
 ) => {
   const errorCode = error.statusCode ?? 500;
-  const errorMessage = error.publicMessage ?? "Everything has peted";
+  const errorMessage = error.publicMessage ?? "Internal Server Error";
 
   debug(chalk.red(error.message));
 
