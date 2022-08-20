@@ -13,3 +13,8 @@ export interface UserJwtPayload {
   id: string;
   userName: string;
 }
+
+export interface BodyUserRegister {
+  userName: string;
+  password: string;
+}

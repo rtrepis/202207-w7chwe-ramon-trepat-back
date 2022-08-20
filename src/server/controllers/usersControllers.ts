@@ -1,10 +1,19 @@
 import { NextFunction, Request, Response } from "express";
 import User from "../../database/models/User";
-import { UserLogin, UserSchema, UserJwtPayload } from "../../interfaces/Users";
-import { createToken, hashCompare } from "../../utils/auth";
+import {
+  UserLogin,
+  UserSchema,
+  UserJwtPayload,
+  BodyUserRegister,
+} from "../../interfaces/Users";
+import { createToken, hashCompare, hashCreator } from "../../utils/auth";
 import CustomError from "../../utils/CustomError";
 
-const loginUser = async (req: Request, res: Response, next: NextFunction) => {
+export const loginUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const user = req.body as UserLogin;
 
   const userError = new CustomError(
@@ -64,4 +73,25 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
   res.status(200).json(responseUserData);
 };
 
-export default loginUser;
+export const registerUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const user: BodyUserRegister = req.body;
+
+  user.password = await hashCreator(user.password);
+
+  try {
+    const newUser = await User.create(user);
+
+    res.status(201).json({ user: newUser });
+  } catch (error) {
+    const customError = new CustomError(
+      400,
+      error.message,
+      "Error creating new user"
+    );
+    next(customError);
+  }
+};
